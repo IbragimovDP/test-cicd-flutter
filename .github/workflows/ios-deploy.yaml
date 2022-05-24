@@ -2,7 +2,7 @@ name: Appstore Deployment
 on:
   push:
     tags:
-      - master
+      - main
       
 jobs:
  deploy_ios:
