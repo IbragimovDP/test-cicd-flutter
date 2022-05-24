@@ -10,13 +10,13 @@ jobs:
     runs-on: macOS-latest
     steps:
       - name: Checkout code from ref
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
       - name: Run Flutter tasks
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.0.6'
+          flutter-version: '2.8.0'
       - run: flutter clean
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
