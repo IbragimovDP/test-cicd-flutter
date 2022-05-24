@@ -1,0 +1,8 @@
+git_url("git@github.com:IbragimovDP/timrus-codesigning.git")
+
+storage_mode("git")
+
+type("development")
+type("appstore")
+
+git_branch("mobisharks")

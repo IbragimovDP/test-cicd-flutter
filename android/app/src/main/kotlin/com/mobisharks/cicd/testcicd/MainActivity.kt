@@ -1,4 +1,4 @@
-package com.mobisharks.cicd.testcicd
+package com.mobisharks.cicd
 
 import io.flutter.embedding.android.FlutterActivity
 
