@@ -23,13 +23,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
-### ios release
+### ios closed_beta
 
 ```sh
-[bundle exec] fastlane ios release
+[bundle exec] fastlane ios closed_beta
 ```
 
-Push a new release build to the App Store
+
 
 ----
 
