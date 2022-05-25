@@ -11,8 +11,9 @@
   "author": "ibragimovdp",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.4.0",
+    "@actions/core": "^1.8.2",
     "@actions/exec": "^1.1.0",
+    "@actions/github": "^5.0.3",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
