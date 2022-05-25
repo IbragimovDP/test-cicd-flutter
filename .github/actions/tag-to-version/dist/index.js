@@ -107,7 +107,16 @@ function formatSemanticValuesFromTag(tag) {
         // Load the YAML
         var raw = fs.readFileSync("pubspec.yaml");
         var pubspec = YAML.load(raw);
+        // Modify the YAML
         pubspec.version = tag;
+        console.log(__dirname);
+        // Saved the YAML
+        var yaml = YAML.dump(pubspec);
+        fs.writeFileSync("pubspec.yaml", yaml, function (err, file) {
+            if (err)
+                throw err;
+            console.log("Saved!");
+        });
     }
     catch (error) {
         core.setFailed(error.message);

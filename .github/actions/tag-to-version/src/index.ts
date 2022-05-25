@@ -59,7 +59,17 @@ function formatSemanticValuesFromTag(tag: String) {
         const raw = fs.readFileSync("pubspec.yaml");
         const pubspec = YAML.load(raw);
 
+        // Modify the YAML
         pubspec.version = tag
+
+        console.log(__dirname);
+
+        // Saved the YAML
+        const yaml = YAML.dump(pubspec);
+        fs.writeFileSync("pubspec.yaml", yaml, function (err, file) {
+            if (err) throw err;
+            console.log("Saved!");
+        });
     } catch (error) {
         core.setFailed(error.message);
     }
