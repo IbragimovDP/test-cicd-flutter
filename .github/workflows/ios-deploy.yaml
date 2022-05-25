@@ -16,10 +16,13 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.2'
+      - name: Get Flutter version
+        id: get-flutter-version
+        uses: zgosalvez/github-actions-get-flutter-version-env@v1
       - name: Run Flutter tasks
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.8.0'
+          flutter-version: ${{ steps.get-flutter-version.outputs.version }}    
       - run: flutter clean
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
