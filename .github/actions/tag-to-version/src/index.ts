@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
-import * as YAML from 'yaml'
+import * as YAML from 'js-yaml'
 import * as fs from 'fs'
 
 const MAJOR: string = 'MAJOR';

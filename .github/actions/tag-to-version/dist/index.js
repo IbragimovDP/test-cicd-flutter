@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core = require("@actions/core");
 var exec = require("@actions/exec");
-var YAML = require("yaml");
+var YAML = require("js-yaml");
 var fs = require("fs");
 var MAJOR = 'MAJOR';
 var MINOR = 'MINOR';
