@@ -21,7 +21,7 @@ jobs:
         id: get-flutter-version
         uses: zgosalvez/github-actions-get-flutter-version-env@v1
       - name: Convert tag to project version
-        uses: ./.github/actions/tag-to-version
+        uses: IbragimovDP/tag-to-version@v1.0.0
       - name: Run Flutter tasks
         uses: subosito/flutter-action@v2
         with:
