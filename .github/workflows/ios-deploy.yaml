@@ -13,12 +13,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
+          fetch-depth: 0
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.2'
       - name: Get Flutter version
         id: get-flutter-version
         uses: zgosalvez/github-actions-get-flutter-version-env@v1
+      - name: Convert tag to project version
+        uses: ./.github/actions/tag-to-version
       - name: Run Flutter tasks
         uses: subosito/flutter-action@v2
         with:

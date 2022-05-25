@@ -1,0 +1,9 @@
+name: 'Convert tag to pubspec project version'
+description: 'Automation flutter projects for versions'
+author: 'ibragimovdp'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'tag'
+  color: 'green'
