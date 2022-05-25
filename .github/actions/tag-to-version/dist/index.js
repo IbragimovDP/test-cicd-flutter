@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core = require("@actions/core");
 var exec = require("@actions/exec");
 var YAML = require("yaml");
+var fs = require("fs");
 var MAJOR = 'MAJOR';
 var MINOR = 'MINOR';
 var PATCH = 'PATCH';
