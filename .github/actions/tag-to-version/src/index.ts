@@ -57,7 +57,7 @@ function formatSemanticValuesFromTag(tag: String) {
     try {
         // Load the YAML
         const raw = fs.readFileSync("pubspec.yaml");
-        const pubspec = YAML.safeLoad(raw);
+        const pubspec = YAML.load(raw);
 
         pubspec.version = tag
     } catch (error) {
