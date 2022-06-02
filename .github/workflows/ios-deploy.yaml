@@ -50,3 +50,12 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+      - name: Slack Notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_TITLE: '${{ env.GITHUB_REPOSITORY }} deployment finnished with status ${{ job.status }}'
+          SLACK_USERNAME: Github Notifications
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
