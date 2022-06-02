@@ -54,7 +54,6 @@ jobs:
         uses: voxmedia/github-action-slack-notify-build@v1
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
-        uses: 
         with:
           channel_id: C02PLQZ4JM8
           status: ${{ job.status }}
