@@ -30,7 +30,7 @@ jobs:
       - run: flutter pub get
       - name: Install Dependencies
         run: |
-          cd Example
+          cd ios
           pod install
         shell: bash
       - name: Deploy iOS Beta to TestFlight via Fastlane
