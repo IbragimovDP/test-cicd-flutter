@@ -31,6 +31,8 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ios
+          pwd
+          ls -l
           pod install
         shell: bash
       - name: Deploy iOS Beta to TestFlight via Fastlane
