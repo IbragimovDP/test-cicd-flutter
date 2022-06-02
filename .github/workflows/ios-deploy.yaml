@@ -26,7 +26,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ steps.get-flutter-version.outputs.version }}    
-      - run: flutter clean
       - run: flutter pub get
       - name: Install Dependencies
         run: |
@@ -39,7 +38,7 @@ jobs:
           lane: closed_beta
           subdirectory: ios
         env:
-          ITC_TEAM_ID: '${{ secrets.ITC_TEAM_ID }}'
+#          ITC_TEAM_ID: '${{ secrets.ITC_TEAM_ID }}'
           APPLICATON_ID: '${{ secrets.APPLICATON_ID }}'
           BUNDLE_IDENTIFIER: '${{ secrets.BUNDLE_IDENTIFIER }}'
           DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
@@ -54,7 +53,7 @@ jobs:
         if: always()
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_COLOR: ${{ job.status }}
           SLACK_TITLE: '${{ env.GITHUB_REPOSITORY }} deployment finnished with status ${{ job.status }}'
           SLACK_USERNAME: Github Notifications
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
