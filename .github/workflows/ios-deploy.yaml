@@ -30,7 +30,6 @@ jobs:
       - run: flutter pub get
       - name: Install Dependencies
         run: |
-          cd ios
           pwd
           ls -l
           pod install
