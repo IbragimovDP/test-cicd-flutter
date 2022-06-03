@@ -6,4 +6,4 @@ on:
       
 jobs:
  deploy_ios:
-    uses: ibragimovdp/reusable-workflow/ios-deploy.yaml@main
+    uses: ibragimovdp/reusable-workflow/.github/workflows/ios-deploy.yaml@main
