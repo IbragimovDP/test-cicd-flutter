@@ -51,7 +51,7 @@ jobs:
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
       - name: Slack Notification
         if: always()
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v1.1.2
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
