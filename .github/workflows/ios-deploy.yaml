@@ -55,7 +55,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
-          channel_id: C02PLQZ4JM8
+          channel-id: C02PLQZ4JM8
           slack-message: "GitHub build result: ${{ job.status }}\nPlease fix"
       - name: Slack Notification success
         if: ${{ success() }}
