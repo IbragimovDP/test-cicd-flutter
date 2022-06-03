@@ -49,12 +49,19 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-      - name: Slack Notification
-        if: always()
-        uses: voxmedia/github-action-slack-notify-build@v1.1.2
+      - name: Slack Notification failure
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v1.19.0
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
-          # channel_id: C02PLQZ4JM8
-          channel: flutter-dev
-          status: ${{ job.status }}
+          channel_id: C02PLQZ4JM8
+          slack-message: "GitHub build result: ${{ job.status }}\nPlease fix"
+      - name: Slack Notification success
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v1.19.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        with:
+          channel_id: C02PLQZ4JM8
+          slack-message: "GitHub build result: ${{ job.status }}\nPlease fix"
