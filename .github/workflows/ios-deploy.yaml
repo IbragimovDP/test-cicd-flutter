@@ -26,7 +26,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ steps.get-flutter-version.outputs.version }}    
-      - run: flutter clean
       - run: flutter pub get
       - name: Install Dependencies
         run: |
@@ -50,3 +49,19 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+      - name: Slack Notification failure
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v1.19.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        with:
+          channel-id: C02PLQZ4JM8
+          slack-message: "❌Build uploading was failed\n❌Please fix"
+      - name: Slack Notification success
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v1.19.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        with:
+          channel-id: C02PLQZ4JM8
+          slack-message: "✅${{ github.repository }} build ${{ github.ref_name }} has been uploaded to TestFlight\n✅Please test"
