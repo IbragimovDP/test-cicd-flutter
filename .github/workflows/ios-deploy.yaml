@@ -55,5 +55,6 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
-          channel_id: C02PLQZ4JM8
+          # channel_id: C02PLQZ4JM8
+          channel: flutter-dev
           status: ${{ job.status }}
