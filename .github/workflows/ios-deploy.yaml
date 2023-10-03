@@ -60,12 +60,10 @@ jobs:
         shell: bash
       - name: 🍏📦 Create iOS release
         run: |
-          pushd
           flutter build ipa \
             --release \
             --target lib/main.dart \
             --export-options-plist=ios/Runner/ExportOptions.plist
-          popd
       - name: 🍏🚀 Deploy to App Store (Testflight)
         uses: apple-actions/upload-testflight-build@v1
         with:
