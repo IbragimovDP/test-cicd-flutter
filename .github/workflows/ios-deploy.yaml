@@ -43,7 +43,7 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
       - name: 📝 Convert tag to project version
-        uses: IbragimovDP/tag-to-version@v1.0.1
+        uses: IbragimovDP/tag-to-version@v1.0.2
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2
         with:
