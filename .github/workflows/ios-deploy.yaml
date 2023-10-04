@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v3
+      - name: Try to fail
+        run: exit 1 
       - name: 🔐 Install Apple certificate and provisioning profile
         env:
           P12_DISTRIBUTION_CERTIFICATE_BASE64: "${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_BASE64 }}"
@@ -74,3 +76,21 @@ jobs:
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+      - name: Slack Notification failure
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        with:
+          channel-id: ${{ secrets.PROJECT_CHANNEL_ID }}
+          slack-message: "❌${{ github.repository }} build uploading was failed"
+      - name: Slack Notification success
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        with:
+          channel-id: ${{ secrets.PROJECT_CHANNEL_ID }}
+          slack-message: "✅${{ github.repository }} build ${{ github.ref_name }} has been uploaded to TestFlight"
+
+
