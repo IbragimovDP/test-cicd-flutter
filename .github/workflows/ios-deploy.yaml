@@ -1,8 +1,8 @@
 name: 📦🚀 Build & deploy iOS app
 on:
-  push
-    # tags:
-    #   - i*
+  push:
+    tags:
+      - i*
 
 jobs:
   deployIos:
@@ -42,9 +42,8 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      - name: 📝 Edit pubspec version
-        run: |
-          sed -Ei "" "s/^version: (.*)/version: 1.0.16+1/" pubspec.yaml
+      - name: 📝 Convert tag to project version
+        uses: IbragimovDP/tag-to-version@v1.0.1
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -71,29 +70,3 @@ jobs:
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
-
-# jobs:
-#  deploy_ios:
-#     uses: ibragimovdp/reusable-workflow/.github/workflows/ios-deploy.yaml@main
-#     secrets:
-#       ITC_TEAM_ID: '${{ secrets.ITC_TEAM_ID }}'
-#       APPLICATON_ID: '${{ secrets.APPLICATON_ID }}'
-#       BUNDLE_IDENTIFIER: '${{ secrets.BUNDLE_IDENTIFIER }}'
-#       DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
-#       FASTLANE_APPLE_EMAIL_ID: '${{ secrets.FASTLANE_APPLE_EMAIL_ID }}'
-#       APP_SPECIFIC_PASSWORD: '${{ secrets.APP_SPECIFIC_PASSWORD }}'
-#       MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-#       GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-#       PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-#       TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-#       TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-#       SLACK_NOTIFICATIONS_BOT_TOKEN: '${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}'
-
-
-
-# on:
-#   workflow_call:
-#     inputs:
-#       flavor:
-#         required: true
-#         type: string
