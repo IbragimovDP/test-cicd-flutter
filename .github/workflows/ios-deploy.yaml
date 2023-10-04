@@ -6,91 +6,13 @@ on:
 
 jobs:
   deployIos:
-    name: 🍏📦🚀 Build & deploy iOS release
-    runs-on: macos-latest
-    steps:
-      - name: ⬇️ Checkout repository
-        uses: actions/checkout@v3
-      - name: Try to fail
-        run: exit 1 
-      - name: 🔐 Install Apple certificate and provisioning profile
-        env:
-          P12_DISTRIBUTION_CERTIFICATE_BASE64: "${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_BASE64 }}"
-          P12_DISTRIBUTION_CERTIFICATE_PASSWORD: "${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_PASSWORD }}"
-          DISTRIBUTION_PROVISIONING_PROFILE_BASE64: "${{ secrets.IOS_DISTRIBUTION_PROVISIONING_PROFILE_BASE64 }}"
-          KEYCHAIN_PASSWORD: "${{ secrets.IOS_RUNNER_LOCAL_KEYCHAIN_PASSWORD }}"
-          EXPORT_OPTIONS_BASE64: "${{ secrets.IOS_EXPORT_OPTIONS_BASE64 }}"
-        run: |
-          # create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          PROVISIONING_PROFILE_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-          EXPORT_OPTIONS_PATH="${{ github.workspace }}/ios/Runner/ExportOptions.plist"
-
-          # import certificate, provisioning profile and export options from secrets
-          echo -n "$P12_DISTRIBUTION_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
-          echo -n "$DISTRIBUTION_PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PROVISIONING_PROFILE_PATH
-          echo -n "$EXPORT_OPTIONS_BASE64" | base64 --decode -o $EXPORT_OPTIONS_PATH
-
-          # create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-          # import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$P12_DISTRIBUTION_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-
-          # apply provisioning profile
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      - name: 📝 Edit pubspec version
-        run: |
-          TAG_NAME=${{ github.ref }}
-          VERSION=${TAG_NAME##*/}
-          VERSION_NUMBER=$(echo $VERSION | sed -E 's/[^0-9.+]//g')
-          sed -Ei "" "s/^version: (.*)/version: ${VERSION_NUMBER}/" pubspec.yaml
-      - name: ⚙️ Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.13.4"
-          channel: 'stable'
-          cache: true
-        id: flutter
-      - run: flutter pub get
-      - name: Install Dependencies
-        run: |
-          cd ios
-          pod install
-        shell: bash
-      - name: 🍏📦 Create iOS release
-        run: |
-          flutter build ipa \
-            --release \
-            --target lib/main.dart \
-            --export-options-plist=ios/Runner/ExportOptions.plist
-      - name: 🍏🚀 Deploy to App Store (Testflight)
-        uses: apple-actions/upload-testflight-build@v1
-        with:
-          app-path: ${{ github.workspace }}/build/ios/ipa/testcicd.ipa
-          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
-      - name: Slack Notification failure
-        if: ${{ failure() }}
-        uses: slackapi/slack-github-action@v1.24.0
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
-        with:
-          channel-id: ${{ secrets.PROJECT_CHANNEL_ID }}
-          slack-message: "❌${{ github.repository }} build uploading was failed"
-      - name: Slack Notification success
-        if: ${{ success() }}
-        uses: slackapi/slack-github-action@v1.24.0
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
-        with:
-          channel-id: ${{ secrets.PROJECT_CHANNEL_ID }}
-          slack-message: "✅${{ github.repository }} build ${{ github.ref_name }} has been uploaded to TestFlight"
-
-
+    uses: ibragimovdp/reusable-workflow/.github/workflows/ios-deploy.yaml@main
+    secrets:
+      APP_STORE_CONNECT_API_KEY_ID: '${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}'
+      APP_STORE_CONNECT_API_PRIVATE_KEY: '${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}'
+      APP_STORE_CONNECT_ISSUER_ID: '${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}'
+      IOS_DISTRIBUTION_PROVISIONING_PROFILE_BASE64: '${{ secrets.IOS_DISTRIBUTION_PROVISIONING_PROFILE_BASE64 }}'
+      IOS_EXPORT_OPTIONS_BASE64: '${{ secrets.IOS_EXPORT_OPTIONS_BASE64 }}'
+      IOS_P12_DISTRIBUTION_CERTIFICATE_BASE64: '${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_BASE64 }}'
+      IOS_P12_DISTRIBUTION_CERTIFICATE_PASSWORD: '${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_PASSWORD }}'
+      PROJECT_CHANNEL_ID: '${{ secrets.PROJECT_CHANNEL_ID }}'
