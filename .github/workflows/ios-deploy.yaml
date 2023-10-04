@@ -47,7 +47,7 @@ jobs:
           TAG_NAME=${{ github.ref }}
           VERSION=${TAG_NAME##*/}
           VERSION_NUMBER=$(echo $VERSION | sed -E 's/[^0-9.+]//g')
-          sed -Ei "s/^version: (.*)/version: ${VERSION_NUMBER}/" pubspec.yaml
+          sed -Ei "" "s/^version: (.*)/version: ${VERSION_NUMBER}/" pubspec.yaml
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2
         with:
