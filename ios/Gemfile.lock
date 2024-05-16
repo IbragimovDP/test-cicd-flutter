@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/tianhaoz95/fastlane-plugin-flutter-version
+  revision: aa92b678f4fe842d8c1428e45cea4cba837fdfea
+  specs:
+    fastlane-plugin-flutter_version (1.1.15)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -168,7 +174,8 @@ GEM
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
     retriable (3.1.2)
-    rexml (3.2.5)
+    rexml (3.2.8)
+      strscan (>= 3.0.9)
     rouge (2.0.7)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
@@ -181,6 +188,7 @@ GEM
     simctl (1.6.8)
       CFPropertyList
       naturally
+    strscan (3.1.0)
     terminal-notifier (2.0.0)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
@@ -209,10 +217,11 @@ GEM
       xcpretty (~> 0.2, >= 0.0.7)
 
 PLATFORMS
-  arm64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   fastlane
+  fastlane-plugin-flutter_version!
 
 BUNDLED WITH
    2.3.11
